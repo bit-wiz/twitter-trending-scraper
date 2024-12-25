@@ -24,7 +24,7 @@ async def get_trending():
         option = webdriver.ChromeOptions()
 
         # option.add_argument('--proxy-server=%s' % PROXYMESH_URL) 
-        option.add_argument("--headless")
+        # option.add_argument("--headless")
         option.add_argument("--disable-gpu")
         option.add_argument("--no-sandbox")
         option.binary_location = '/usr/bin/brave-browser'

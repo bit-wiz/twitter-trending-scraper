@@ -7,7 +7,7 @@
     <script>
         function getTrending() {
             const loadingMessage = document.getElementById('loading-message');
-            loadingMessage.style.display = 'block';
+            loadingMessage.style.display = 'block'; // Show loading message
 
             fetch('/get_trending')
                 .then(response => response.json())
@@ -15,18 +15,23 @@
                     const trendingList = document.getElementById('trending-list');
 
                     data.forEach(trend => {
-                        const trendItem = document.createElement('div');
-                        trendItem.classList.add('trend-item');
-                        trendItem.innerHTML = `
-                            <strong>${trend.trend_name}</strong><br>
-                            <span>${trend.hashtag}</span><br>
-                            <small>${trend.date_time}</small>
-                            <hr>
-                        `;
-                        trendingList.appendChild(trendItem);
+                        const trendContainer = document.createElement('div');
+                        trendContainer.classList.add('trend-container');
+
+                        // Display trend data
+                        for (const [key, value] of Object.entries(trend)) {
+                            const trendItem = document.createElement('div');
+                            trendItem.classList.add('trend-item');
+                            trendItem.innerHTML = `
+                                <strong>${key}</strong>: ${value || 'No hashtag'}
+                            `;
+                            trendContainer.appendChild(trendItem);
+                        }
+                        trendContainer.innerHTML += "<hr>";
+                        trendingList.appendChild(trendContainer);
                     });
 
-                    loadingMessage.style.display = 'none';
+                    loadingMessage.style.display = 'none'; // Hide loading message
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -51,8 +56,12 @@
             margin-top: 20px;
         }
 
-        .trend-item {
+        .trend-container {
             margin-bottom: 20px;
+        }
+
+        .trend-item {
+            margin-bottom: 5px;
         }
 
         #loading-message {
