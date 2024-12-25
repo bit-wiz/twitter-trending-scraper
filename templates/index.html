@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Page</title>
+    <script>
+        function getTrending() {
+            const loadingMessage = document.getElementById('loading-message');
+            loadingMessage.style.display = 'block';
+
+            fetch('/get_trending')
+                .then(response => response.json())
+                .then(data => {
+                    const trendingList = document.getElementById('trending-list');
+
+                    data.forEach(trend => {
+                        const trendItem = document.createElement('div');
+                        trendItem.classList.add('trend-item');
+                        trendItem.innerHTML = `
+                            <strong>${trend.trend_name}</strong><br>
+                            <span>${trend.hashtag}</span><br>
+                            <small>${trend.date_time}</small>
+                            <hr>
+                        `;
+                        trendingList.appendChild(trendItem);
+                    });
+
+                    loadingMessage.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingMessage.textContent = 'Error fetching data. Please try again.';
+                });
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #trending-list {
+            margin-top: 20px;
+        }
+
+        .trend-item {
+            margin-bottom: 20px;
+        }
+
+        #loading-message {
+            display: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trending Now</h1>
+    <button onclick="getTrending()">Get Trending</button>
+    <p id="loading-message">Loading...</p>
+    <div id="trending-list"></div>
+</body>
+</html>
