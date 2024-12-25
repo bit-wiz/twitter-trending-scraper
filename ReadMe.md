@@ -1,6 +1,6 @@
 # Trending Page Application
 
-This project provides a simple web interface to fetch and display trending data. The backend is implemented using Flask and Selenium, and the frontend dynamically shows the trends fetched from the backend.
+STIR assignment
 
 ---
 
